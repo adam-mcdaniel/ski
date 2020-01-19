@@ -1,5 +1,5 @@
 extern crate ski;
-use ski::{string, I, K, P, S, G};
+use ski::{I, K, S};
 
 fn main() {
     let t = K;
@@ -11,8 +11,8 @@ fn main() {
     
     
     
-    for _ in 0..1000000 {
-        P.app(&ifz.app(&f).app(&G).app(&P).app(&string("> ")));
-        // ifz.app(&f).app(&t).app(&string("test"));
-    }
+    // for _ in 0..1000000 {
+    //     P.app(&ifz.app(&f).app(&G).app(&P).app(&string("> ")));
+    //     // ifz.app(&f).app(&t).app(&string("test"));
+    // }
 }

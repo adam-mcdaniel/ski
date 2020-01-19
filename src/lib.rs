@@ -10,12 +10,7 @@ use core::fmt::{Display, Error, Formatter};
 pub const S: Combinator = Combinator::S { x: None, y: None };
 pub const K: Combinator = Combinator::K { x: None };
 pub const I: Combinator = Combinator::I;
-pub const G: Combinator = Combinator::Get;
-pub const P: Combinator = Combinator::Print;
 
-pub fn string(s: impl ToString) -> Combinator {
-    Combinator::Str(s.to_string())
-}
 
 #[derive(Clone, Debug)]
 pub enum Combinator {
@@ -26,11 +21,9 @@ pub enum Combinator {
     K {
         x: Option<Rc<Self>>,
     },
-    I,
-    Print,
-    Get,
-    Str(String),
+    I
 }
+
 
 impl Combinator {
     pub fn app(&self, c: &Combinator) -> Self {
@@ -54,31 +47,6 @@ impl Combinator {
                 _ => unreachable!(),
             },
             Self::I => c.clone(),
-            Self::Print => {
-                match c {
-                    Self::Str(s) => print!("{}", s),
-                    _ => {}
-                }
-                c.clone()
-            }
-            Self::Get => match c {
-                Self::Str(s) => {
-                    use std::io::{stdin, stdout, Write};
-                    print!("{}", s);
-                    let mut s = String::new();
-                    let _ = stdout().flush();
-                    stdin().read_line(&mut s).unwrap();
-                    if let Some('\n') = s.chars().next_back() {
-                        s.pop();
-                    }
-                    if let Some('\r') = s.chars().next_back() {
-                        s.pop();
-                    }
-                    string(s)
-                }
-                _ => c.clone(),
-            },
-            Self::Str(_) => self.clone(),
         }
     }
 }
@@ -97,9 +65,6 @@ impl Display for Combinator {
                 Some(a) => write!(f, "K({})", a),
             },
             Self::I => write!(f, "I"),
-            Self::Str(s) => write!(f, "{}", s),
-            Self::Print => write!(f, "P"),
-            Self::Get => write!(f, "G"),
         }
     }
 }
