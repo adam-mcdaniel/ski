@@ -1,9 +1,6 @@
-// #![no_std]
+#![no_std]
 extern crate alloc;
-use alloc::{
-    rc::Rc,
-    string::{String, ToString},
-};
+use alloc::rc::Rc;
 
 use core::fmt::{Display, Error, Formatter};
 
